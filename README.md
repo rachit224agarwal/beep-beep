@@ -1,3 +1,10 @@
+<p align="center">
+  <img src="https://img.shields.io/npm/v/git-beep-beep" alt="npm version">
+  <img src="https://img.shields.io/npm/l/git-beep-beep" alt="license">
+  <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen" alt="node version">
+  <img src="https://img.shields.io/github/last-commit/rachit224agarwal/git-beep-beep" alt="last commit">
+</p>
+
 # git-beep-beep
 
 > Hear your commits. Sound effects for your Git workflow.
@@ -139,20 +146,15 @@ If no audio backend is found, it logs a warning and exits cleanly — never thro
 ## Development
 
 ```bash
-# Clone and install
-git clone https://github.com/your-username/git-beep-beep.git
+git clone https://github.com/rachit224agarwal/git-beep-beep.git
 cd git-beep-beep
 npm install
 
-# Run tests
 npm test
-
-# Lint and format
 npm run lint
 npm run format:check
 
-# Link globally for local testing
-npm link
+npm link  # for local testing
 ```
 
 ### Requirements
