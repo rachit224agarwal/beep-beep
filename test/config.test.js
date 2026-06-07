@@ -64,7 +64,7 @@ describe('config', () => {
         volume: 0.8,
       };
       const result = resolveSoundPath('tada', config);
-      expect(result).toBe('/path/to/tada.mp3');
+      expect(result).toBe(resolve('/path/to/tada.mp3'));
     });
 
     it('should expand tilde in unresolved paths', () => {
@@ -76,7 +76,7 @@ describe('config', () => {
     it('should return path as-is for non-alias absolute paths', () => {
       const config = { aliases: {}, sounds: {}, volume: 0.8 };
       const result = resolveSoundPath('/absolute/path.wav', config);
-      expect(result).toBe('/absolute/path.wav');
+      expect(result).toBe(resolve('/absolute/path.wav'));
     });
   });
 

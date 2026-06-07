@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { resolve } from 'path';
 
 vi.mock('child_process', () => {
   const mockSpawn = vi.fn();
@@ -52,7 +53,7 @@ describe('player', () => {
     expect(spawn).toHaveBeenCalled();
     const [binary, args] = spawn.mock.calls[0];
     expect(binary).toBe('afplay');
-    expect(args).toContain('/path/to/test.mp3');
+    expect(args).toContain(resolve('/path/to/test.mp3'));
   });
 
   it('should never throw on missing file', async () => {
