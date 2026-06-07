@@ -1,15 +1,14 @@
-# beep-beep
+# git-beep-beep
 
 > Hear your commits. Sound effects for your Git workflow.
-> Because silent git pushes are boring.
 
-`beep-beep` plays configurable sound effects when you commit and push to Git. No daemons, no background services — just plain shell hooks that fire and forget.
+`git-beep-beep` (CLI: `beep-beep`) plays configurable sound effects when you commit and push to Git. No daemons, no background services — just plain shell hooks that fire and forget.
 
 ## Features
 
 - Plays sounds on `git commit` and `git push`
 - Works on macOS, Linux, and Windows
-- Zero setup — `npx beep-beep init` in any repo
+- Zero setup — `npx git-beep-beep init` in any repo
 - Bring your own sounds or use the built-in defaults
 - Per-repo configuration via `.beepbeeprc.json`
 - Non-blocking hooks — a broken sound never fails your Git command
@@ -18,7 +17,7 @@
 
 ```bash
 # Initialize configuration (one-time)
-npx beep-beep init
+npx git-beep-beep init
 
 # Install hooks in your repository
 beep-beep hook install
@@ -32,7 +31,7 @@ git commit --allow-empty -m "hello"
 ### One-time setup
 
 ```bash
-npx beep-beep init
+npx git-beep-beep init
 ```
 
 This creates `~/.beepbeep.json` with default sound mappings shared across all your repositories.
@@ -48,19 +47,19 @@ Hooks are plain POSIX shell scripts placed in `.git/hooks/`. They run `beep-beep
 
 ## Commands
 
+After global install (`npm install -g git-beep-beep`), use `beep-beep <command>`. Via `npx`, use `npx git-beep-beep <command>`.
+
 | Command | Description |
 |---|---|
-| `beep-beep init` | Interactive configuration wizard |
-| `beep-beep set <event> <file-or-alias>` | Assign a sound to an event |
-| `beep-beep add <alias> <file>` | Register a custom alias for a sound file |
-| `beep-beep remove <alias>` | Remove a custom alias |
-| `beep-beep list` | Show all configured sounds and aliases |
-| `beep-beep test [event]` | Play a sound without triggering a real Git event |
-| `beep-beep hook install` | Install hooks into `.git/hooks/` |
-| `beep-beep hook uninstall` | Remove hooks and restore backups |
-| `beep-beep hook status` | Check which hooks are installed |
-| `beep-beep --version` | Show version |
-| `beep-beep --help` | Show help |
+| `init` | Interactive configuration wizard |
+| `set <event> <file-or-alias>` | Assign a sound to an event |
+| `add <alias> <file>` | Register a custom alias for a sound file |
+| `remove <alias>` | Remove a custom alias |
+| `list` | Show all configured sounds and aliases |
+| `test [event]` | Play a sound without triggering a real Git event |
+| `hook install` | Install hooks into `.git/hooks/` |
+| `hook uninstall` | Remove hooks and restore backups |
+| `hook status` | Check which hooks are installed |
 
 ## Events
 
@@ -121,13 +120,13 @@ beep-beep set success victory
 
 ## Audio backends
 
-beep-beep auto-detects your platform and picks the best available player:
+`git-beep-beep` auto-detects your platform and picks the best available player:
 
 - **macOS** — `afplay` (supports volume control)
 - **Linux** — Tries `paplay`, `aplay`, `mpg123`, `ffplay` in order
 - **Windows** — PowerShell `MediaPlayer` COM object
 
-If no audio backend is found, beep-beep logs a warning and exits cleanly — it never throws.
+If no audio backend is found, it logs a warning and exits cleanly — never throws.
 
 ## How it works
 
@@ -141,8 +140,8 @@ If no audio backend is found, beep-beep logs a warning and exits cleanly — it 
 
 ```bash
 # Clone and install
-git clone https://github.com/your-username/beep-beep.git
-cd beep-beep
+git clone https://github.com/your-username/git-beep-beep.git
+cd git-beep-beep
 npm install
 
 # Run tests

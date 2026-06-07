@@ -35,6 +35,6 @@ jobs:
           npm pack --pack-destination "${{ runner.temp }}"
           cd "$(mktemp -d)"
           npm init -y
-          npm install "${{ runner.temp }}"/beep-beep-*.tgz
-          npx beep-beep --version
-          npx beep-beep --help
+          npm install "${{ runner.temp }}"/git-beep-beep-*.tgz
+          npx git-beep-beep --version
+          npx git-beep-beep --help

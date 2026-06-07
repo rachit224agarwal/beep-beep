@@ -1,10 +1,10 @@
 {
-  "name": "beep-beep",
+  "name": "git-beep-beep",
   "version": "1.0.0",
-  "description": "Plays user-configurable sounds on git push and commit events",
+  "description": "Hear your commits — plays sound effects on git push and commit events",
   "type": "module",
   "bin": {
-    "beep-beep": "./bin/beep-beep.js"
+    "beep-beep": "bin/beep-beep.js"
   },
   "engines": {
     "node": ">=18"

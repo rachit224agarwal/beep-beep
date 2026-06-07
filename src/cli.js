@@ -13,7 +13,7 @@ import { fireCommand } from './commands/fire.js';
 const program = new Command();
 
 program
-  .name('beep-beep')
+  .name('git-beep-beep')
   .version('1.0.0')
   .description('Plays user-configurable sounds on git push and commit events');
 

@@ -20,7 +20,7 @@ export async function initCommand() {
 
   const config = getDefaults();
 
-  info('beep-beep init wizard');
+  info('git-beep-beep init wizard');
   console.log();
 
   for (const event of validEvents()) {

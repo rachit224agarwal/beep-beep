@@ -6,5 +6,5 @@ if [ $? -eq 0 ]; then
 else
   EVENT="fail"
 fi
-(npx --no-install beep-beep fire "$EVENT" >>"$REPO_ROOT/.git/hooks/.beep-beep.log" 2>&1 &) || true
+(npx --no-install git-beep-beep fire "$EVENT" >>"$REPO_ROOT/.git/hooks/.beep-beep.log" 2>&1 &) || true
 exit 0
