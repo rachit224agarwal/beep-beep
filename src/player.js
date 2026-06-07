@@ -67,12 +67,18 @@ export async function play(filePath, volume = 0.8) {
         }
         proc = spawn(backend.binary, args, { stdio: 'ignore', detached: true });
       } else if (os === 'windows') {
+        const escapedPath = resolvedPath.replace(/'/g, "''");
         const psScript = `
-$player = New-Object Media.SoundPlayer([IO.File]::ReadAllBytes('${resolvedPath.replace(/'/g, "''")}'));
-$player.PlaySync();
+try {
+  Add-Type -AssemblyName System.Windows.Forms
+  $p = New-Object System.Media.SoundPlayer('${escapedPath}')
+  $p.PlaySync()
+} catch {
+  [Console]::Beep(800, 200)
+}
 `;
         proc = spawn('powershell', ['-NoProfile', '-NonInteractive', '-Command', psScript], {
-          stdio: 'ignore',
+          stdio: 'pipe',
           detached: true,
         });
       } else {
