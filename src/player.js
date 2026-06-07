@@ -72,14 +72,14 @@ export async function play(filePath, volume = 0.8) {
 try {
   Add-Type -AssemblyName System.Windows.Forms
   $p = New-Object System.Media.SoundPlayer('${escapedPath}')
-  $p.PlaySync()
+  $p.Play()
+  Start-Sleep 1
 } catch {
   [Console]::Beep(800, 200)
 }
 `;
         proc = spawn('powershell', ['-NoProfile', '-NonInteractive', '-Command', psScript], {
           stdio: 'pipe',
-          detached: true,
         });
       } else {
         warn(`unsupported platform: ${os}`);

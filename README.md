@@ -7,7 +7,7 @@
 
 # git-beep-beep
 
-> Hear your commits. Sound effects for your Git workflow.
+> *beep boop* — hear your commits. Sound effects for your Git workflow.
 
 `git-beep-beep` (CLI: `beep-beep`) plays configurable sound effects when you commit and push to Git. No daemons, no background services — just plain shell hooks that fire and forget.
 
@@ -22,15 +22,40 @@
 
 ## Quick start
 
+### Mac / Linux (Terminal)
+
 ```bash
-# Initialize configuration (one-time)
+# 1. One-time init
 npx git-beep-beep init
 
-# Install hooks in your repository
-beep-beep hook install
+# 2. Install git hooks in your project
+cd my-project
+npx git-beep-beep hook install
 
-# Make a commit and hear the sound
-git commit --allow-empty -m "hello"
+# 3. Test the sound
+npx git-beep-beep test commit
+
+# 4. Use git normally — sounds play automatically
+git commit -m "hello"
+git push
+```
+
+### Windows (PowerShell)
+
+```powershell
+# 1. One-time init
+npx git-beep-beep init
+
+# 2. Install git hooks in your project
+cd my-project
+npx git-beep-beep hook install
+
+# 3. Test the sound
+npx git-beep-beep test commit
+
+# 4. Use git normally — sounds play automatically
+git commit -m "hello"
+git push
 ```
 
 ## Install

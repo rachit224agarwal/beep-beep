@@ -1,6 +1,6 @@
 {
   "name": "git-beep-beep",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Hear your commits — plays sound effects on git push and commit events",
   "type": "module",
   "bin": {
