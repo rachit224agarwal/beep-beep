@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18, 20, 22]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm test
+
+      - name: Smoke test (pack + install + run)
+        shell: bash
+        run: |
+          npm pack --pack-destination "${{ runner.temp }}"
+          cd "$(mktemp -d)"
+          npm init -y
+          npm install "${{ runner.temp }}"/beep-beep-*.tgz
+          npx beep-beep --version
+          npx beep-beep --help

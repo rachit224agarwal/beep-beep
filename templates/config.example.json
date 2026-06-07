@@ -1,0 +1,14 @@
+{
+  "sounds": {
+    "commit": "default",
+    "push": "default",
+    "success": "success",
+    "fail": "error"
+  },
+  "aliases": {
+    "default": "~/.beep-beep/sounds/default.wav",
+    "success": "~/.beep-beep/sounds/success.wav",
+    "error": "~/.beep-beep/sounds/error.wav"
+  },
+  "volume": 0.8
+}
