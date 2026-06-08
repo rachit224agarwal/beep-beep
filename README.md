@@ -58,6 +58,10 @@ git commit -m "hello"
 git push
 ```
 
+<p align="center">
+  <img src="assets/demo.gif" alt="git-beep-beep demo" width="700">
+</p>
+
 ## Install
 
 ### One-time setup
