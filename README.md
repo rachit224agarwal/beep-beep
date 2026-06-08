@@ -20,6 +20,38 @@
 - Per-repo configuration via `.beepbeeprc.json`
 - Non-blocking hooks — a broken sound never fails your Git command
 
+## Why you need this
+
+Face it — you stare at a terminal all day. Commits come and go. Pushes happen. It's just text on a screen. Sad.
+
+**git-beep-beep** turns that cold, silent Git workflow into a personal arcade. Every `git commit` or `git push` plays a sound. You choose what.
+
+### What you can do
+
+| Sound | Vibe |
+|---|---|
+| Default chime | Polite "good job, nerd" |
+| Your favorite meme | Every push = "bruh" sound effect |
+| Airhorn | Let the whole office know you shipped 🚨 |
+| Michael Scott "That's what she said" | Comedy gold for your teammates |
+| Metal gear solid "!" | When the PR passes code review |
+| Vine boom | Every time main breaks |
+| [Any .mp3, .wav] | Literally any sound file you own |
+
+### Why your brain loves it
+
+- **Dopamine hits** — your code makes noise. Your brain thinks you're a wizard.
+- **Never miss a push** — you'll *hear* when something ships
+- **Team morale** — coworker pushes? They hear a celebration sound. Team bonding.
+- **Catches failures** — wrong sound plays? Something's off. Fix it before it breaks.
+- **Zero guilt** — if audio fails, Git works perfectly anyway. No risk, all fun.
+
+### Real talk
+
+It's also useful. Audio feedback means you don't need to watch the terminal like a hawk. You hear success. You hear failure. You keep coding.
+
+But mostly it's just *really* satisfying to hear a little tune every time you type `git commit`.
+
 ## Quick start
 
 ### Mac / Linux (Terminal)
