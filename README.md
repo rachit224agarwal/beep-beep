@@ -90,6 +90,22 @@ git commit -m "hello"
 git push
 ```
 
+### Custom sounds
+
+```bash
+# Set a sound for an event (commit, push, success, fail)
+beep-beep set commit ~/Music/coin.mp3
+
+# Add a reusable alias for any sound file
+beep-beep add airhorn ~/Downloads/airhorn.wav
+
+# Use the alias for an event
+beep-beep set push airhorn
+
+# See your current config
+beep-beep list
+```
+
 <p align="center">
   <img src="assets/demo.gif" alt="git-beep-beep demo" width="700">
 </p>
