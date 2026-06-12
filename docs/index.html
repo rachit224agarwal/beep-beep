@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>git-beep-beep — hear your commits</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── hero ── */
+    .hero {
+      text-align: center;
+      padding: 80px 0 40px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 span { color: #58a6ff; }
+
+    .hero .tagline {
+      font-size: 1.2rem;
+      color: #8b949e;
+      margin-bottom: 32px;
+    }
+
+    /* ── install box ── */
+    .install-box {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 20px 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .install-box:hover {
+      border-color: #58a6ff;
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+    }
+
+    .install-box .prompt { color: #58a6ff; }
+    .install-box .cmd { color: #e6edf3; }
+    .install-box .copy-hint {
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 0.75rem;
+      color: #8b949e;
+      background: #21262d;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .install-box.copied .copy-hint {
+      background: #1f6feb;
+      color: #fff;
+    }
+
+    /* ── demo ── */
+    .demo {
+      text-align: center;
+      padding: 48px 0 32px;
+    }
+
+    .demo img {
+      max-width: 100%;
+      border-radius: 10px;
+      border: 1px solid #30363d;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .demo .caption {
+      margin-top: 12px;
+      color: #8b949e;
+      font-size: 0.9rem;
+    }
+
+    /* ── grid sections ── */
+    section { padding: 48px 0; }
+
+    section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    section h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #21262d;
+    }
+
+    /* ── why cards ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: #58a6ff;
+      transform: translateY(-2px);
+    }
+
+    .card .icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .card h3 { font-size: 1rem; margin-bottom: 6px; }
+    .card p { font-size: 0.88rem; color: #8b949e; }
+
+    /* ── sound table ── */
+    .sound-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .sound-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .sound-table tr:last-child td { border-bottom: none; }
+    .sound-table td:first-child {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #58a6ff;
+      white-space: nowrap;
+    }
+    .sound-table td:last-child { color: #8b949e; }
+
+    /* ── quick start code ── */
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 18px 22px;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #e6edf3;
+    }
+
+    pre .comment { color: #8b949e; }
+    pre .keyword { color: #ff7b72; }
+    pre .string { color: #a5d6ff; }
+
+    .platform-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .platform-tab {
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      background: #21262d;
+      color: #8b949e;
+      border: 1px solid #30363d;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .platform-tab.active {
+      background: #1f6feb;
+      color: #fff;
+      border-color: #1f6feb;
+    }
+
+    .code-block { display: none; }
+    .code-block.active { display: block; }
+
+    /* ── custom sounds cmd ── */
+    .cmd-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cmd-list li {
+      padding: 10px 16px;
+      background: #161b22;
+      border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.88rem;
+      border: 1px solid #30363d;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cmd-list li .prompt { color: #58a6ff; }
+    .cmd-list li .arrow { color: #8b949e; }
+
+    /* ── footer ── */
+    footer {
+      text-align: center;
+      padding: 40px 0 48px;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+
+    footer a { color: #58a6ff; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── fade-in ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.15s; }
+    .fade-in:nth-child(3) { animation-delay: 0.25s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── typewriter cursor ── */
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── responsive ── */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .install-box { font-size: 0.85rem; padding: 14px 16px; flex-wrap: wrap; justify-content: center; }
+      .why-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ─── HERO ─── -->
+  <header class="hero fade-in">
+    <h1>git-<span>beep</span>-beep</h1>
+    <p class="tagline">✨ Hear your commits &bull; Sound effects for Git</p>
+
+    <div class="install-box" onclick="copyInstall(event)" title="Click to copy">
+      <span class="prompt">$</span>
+      <span class="cmd">npx git-beep-beep init</span>
+      <span class="copy-hint">📋 copy</span>
+    </div>
+    <p style="margin-top: 10px; font-size: 0.82rem; color: #8b949e;">
+      macOS &bull; Linux &bull; Windows
+    </p>
+  </header>
+
+  <!-- ─── DEMO ─── -->
+  <div class="demo fade-in">
+    <img src="demo.gif" alt="git-beep-beep demo" />
+    <p class="caption">🎬 Installing hooks, testing sound, and committing</p>
+  </div>
+
+  <!-- ─── WHY ─── -->
+  <section class="fade-in">
+    <h2>🎯 Why you need this</h2>
+    <div class="why-grid">
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>Dopamine hits</h3>
+        <p>Your code makes noise. Your brain thinks you're a wizard. Commits feel like achievements.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎵</div>
+        <h3>Your sounds</h3>
+        <p>Default chimes, meme sounds, airhorns, vine booms — or any .mp3 / .wav you own.</p>
+      </div>
+      <div class="card">
+        <div class="icon">👀</div>
+        <h3>Never miss a push</h3>
+        <p>You'll hear when something ships. Audio feedback means you can keep coding.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🤝</div>
+        <h3>Team morale</h3>
+        <p>Coworker pushes and a celebration plays? Instant team bonding. Try it.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🛡️</div>
+        <h3>Zero guilt</h3>
+        <p>If audio fails, Git works perfectly anyway. No risk, all fun.</p>
+      </div>
+      <div class="card">
+        <div class="icon">😂</div>
+        <h3>Meme-ready</h3>
+        <p>Vine boom on push fail. Metal Gear alert on PR pass. Your repo, your comedy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── BUILT-IN SOUNDS ─── -->
+  <section class="fade-in">
+    <h2>🔊 Built-in sounds</h2>
+    <table class="sound-table">
+      <tr><td>default.wav</td><td>Soft two-tone chime — polite "good job, nerd"</td></tr>
+      <tr><td>success.wav</td><td>Ascending notification — VIP entrance for your commits</td></tr>
+      <tr><td>error.wav</td><td>Descending wah-wah — the auditory "uh oh"</td></tr>
+    </table>
+  </section>
+
+  <!-- ─── QUICK START ─── -->
+  <section class="fade-in">
+    <h2>⚡ Quick start</h2>
+
+    <div class="platform-tabs">
+      <div class="platform-tab active" onclick="switchPlatform('mac', this)">🍏 Mac / Linux</div>
+      <div class="platform-tab" onclick="switchPlatform('win', this)">🪟 Windows</div>
+    </div>
+
+    <div id="code-mac" class="code-block active">
+      <pre><span class="comment"># 1. One-time init</span>
+npx git-beep-beep init
+
+<span class="comment"># 2. Install hooks</span>
+cd my-project
+npx git-beep-beep hook install
+
+<span class="comment"># 3. Test the sound</span>
+npx git-beep-beep test commit
+
+<span class="comment"># 4. Use git normally</span>
+git commit -m "hello"
+git push</pre>
+    </div>
+
+    <div id="code-win" class="code-block">
+      <pre><span class="comment"># 1. One-time init</span>
+npx git-beep-beep init
+
+<span class="comment"># 2. Install hooks</span>
+cd my-project
+npx git-beep-beep hook install
+
+<span class="comment"># 3. Test the sound</span>
+npx git-beep-beep test commit
+
+<span class="comment"># 4. Use git normally</span>
+git commit -m "hello"
+git push</pre>
+    </div>
+  </section>
+
+  <!-- ─── CUSTOM SOUNDS ─── -->
+  <section class="fade-in">
+    <h2>🎛️ Custom sounds</h2>
+
+    <ul class="cmd-list">
+      <li><span class="prompt">$</span> <span class="arrow">→</span> beep-beep set commit ~/Music/coin.mp3</li>
+      <li><span class="prompt">$</span> <span class="arrow">→</span> beep-beep add airhorn ~/Downloads/airhorn.wav</li>
+      <li><span class="prompt">$</span> <span class="arrow">→</span> beep-beep set push airhorn</li>
+      <li><span class="prompt">$</span> <span class="arrow">→</span> beep-beep list</li>
+    </ul>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <p>
+      <a href="https://github.com/rachit224agarwal/beep-beep">GitHub</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://www.npmjs.com/package/git-beep-beep">npm</a>
+      &nbsp;&middot;&nbsp;
+      MIT License
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  function copyInstall(el) {
+    navigator.clipboard.writeText('npx git-beep-beep init').then(() => {
+      el.classList.add('copied');
+      el.querySelector('.copy-hint').textContent = '✅ copied';
+      setTimeout(() => {
+        el.classList.remove('copied');
+        el.querySelector('.copy-hint').textContent = '📋 copy';
+      }, 2000);
+    });
+  }
+
+  function switchPlatform(platform, btn) {
+    document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.code-block').forEach(b => b.classList.remove('active'));
+    document.getElementById('code-' + platform).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
