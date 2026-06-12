@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>git-beep-beep — hear your commits</title>
   <style>
+    @import url('https://fonts.cdnfonts.com/css/gilroy-bold');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+      font-family: 'Gilroy-Bold', 'Gilroy', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #0d1117;
       color: #e6edf3;
       line-height: 1.6;
@@ -16,7 +18,6 @@
 
     .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
 
-    /* ── hero ── */
     .hero {
       text-align: center;
       padding: 80px 0 40px;
@@ -37,7 +38,6 @@
       margin-bottom: 32px;
     }
 
-    /* ── install box ── */
     .install-box {
       background: #161b22;
       border: 1px solid #30363d;
@@ -46,11 +46,10 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-family: 'SF Mono', 'Fira Code', monospace;
       font-size: 1.05rem;
       cursor: pointer;
       transition: border-color 0.2s, box-shadow 0.2s;
-      position: relative;
     }
 
     .install-box:hover {
@@ -61,7 +60,7 @@
     .install-box .prompt { color: #58a6ff; }
     .install-box .cmd { color: #e6edf3; }
     .install-box .copy-hint {
-      font-family: -apple-system, system-ui, sans-serif;
+      font-family: 'Gilroy-Bold', 'Inter', sans-serif;
       font-size: 0.75rem;
       color: #8b949e;
       background: #21262d;
@@ -75,7 +74,6 @@
       color: #fff;
     }
 
-    /* ── demo ── */
     .demo {
       text-align: center;
       padding: 48px 0 32px;
@@ -94,7 +92,6 @@
       font-size: 0.9rem;
     }
 
-    /* ── grid sections ── */
     section { padding: 48px 0; }
 
     section h2 {
@@ -113,7 +110,6 @@
       background: #21262d;
     }
 
-    /* ── why cards ── */
     .why-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -133,11 +129,27 @@
       transform: translateY(-2px);
     }
 
-    .card .icon { font-size: 1.6rem; margin-bottom: 8px; }
-    .card h3 { font-size: 1rem; margin-bottom: 6px; }
-    .card p { font-size: 0.88rem; color: #8b949e; }
+    .card .illustration {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    /* ── sound table ── */
+    .card svg { display: block; }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: #8b949e;
+      font-weight: 400;
+    }
+
     .sound-table {
       width: 100%;
       border-collapse: collapse;
@@ -157,14 +169,13 @@
     }
     .sound-table td:last-child { color: #8b949e; }
 
-    /* ── quick start code ── */
     pre {
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 10px;
       padding: 18px 22px;
       overflow-x: auto;
-      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-family: 'SF Mono', 'Fira Code', monospace;
       font-size: 0.88rem;
       line-height: 1.7;
       color: #e6edf3;
@@ -200,7 +211,6 @@
     .code-block { display: none; }
     .code-block.active { display: block; }
 
-    /* ── custom sounds cmd ── */
     .cmd-list {
       list-style: none;
       display: flex;
@@ -223,7 +233,6 @@
     .cmd-list li .prompt { color: #58a6ff; }
     .cmd-list li .arrow { color: #8b949e; }
 
-    /* ── footer ── */
     footer {
       text-align: center;
       padding: 40px 0 48px;
@@ -234,7 +243,6 @@
     footer a { color: #58a6ff; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* ── fade-in ── */
     .fade-in {
       opacity: 0;
       transform: translateY(12px);
@@ -249,10 +257,13 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── typewriter cursor ── */
-    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
 
-    /* ── responsive ── */
+    .card:hover .illustration svg { animation: float 0.8s ease infinite; }
+
     @media (max-width: 600px) {
       .hero h1 { font-size: 2rem; }
       .install-box { font-size: 0.85rem; padding: 14px 16px; flex-wrap: wrap; justify-content: center; }
@@ -267,12 +278,12 @@
   <!-- ─── HERO ─── -->
   <header class="hero fade-in">
     <h1>git-<span>beep</span>-beep</h1>
-    <p class="tagline">✨ Hear your commits &bull; Sound effects for Git</p>
+    <p class="tagline">Hear your commits &bull; Sound effects for Git</p>
 
     <div class="install-box" onclick="copyInstall(event)" title="Click to copy">
       <span class="prompt">$</span>
       <span class="cmd">npx git-beep-beep init</span>
-      <span class="copy-hint">📋 copy</span>
+      <span class="copy-hint">copy</span>
     </div>
     <p style="margin-top: 10px; font-size: 0.82rem; color: #8b949e;">
       macOS &bull; Linux &bull; Windows
@@ -282,63 +293,155 @@
   <!-- ─── DEMO ─── -->
   <div class="demo fade-in">
     <img src="demo.gif" alt="git-beep-beep demo" />
-    <p class="caption">🎬 Installing hooks, testing sound, and committing</p>
+    <p class="caption">Installing hooks, testing sound, and committing</p>
   </div>
 
   <!-- ─── WHY ─── -->
   <section class="fade-in">
-    <h2>🎯 Why you need this</h2>
+    <h2>Why you need this</h2>
     <div class="why-grid">
+
       <div class="card">
-        <div class="icon">🧠</div>
+        <div class="illustration">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="26" fill="#1f6feb" fill-opacity="0.15" stroke="#1f6feb" stroke-width="1.5"/>
+            <ellipse cx="28" cy="30" rx="12" ry="13" fill="#f0e6d0"/>
+            <ellipse cx="28" cy="28" rx="14" ry="8" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <circle cx="23" cy="27" r="2" fill="#161b22"/>
+            <circle cx="33" cy="27" r="2" fill="#161b22"/>
+            <path d="M24 33c1.5 1.5 6.5 1.5 8 0" stroke="#161b22" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M28 16v-4m-3 2l3-2 3 2" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="28" cy="10" r="5" fill="#f5a623" fill-opacity="0.2" stroke="#f5a623" stroke-width="1.5"/>
+            <path d="M26 8h4M28 6v4" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3>Dopamine hits</h3>
-        <p>Your code makes noise. Your brain thinks you're a wizard. Commits feel like achievements.</p>
+        <p>Your code makes noise. Your brain thinks you are a wizard. Commits feel like achievements.</p>
       </div>
+
       <div class="card">
-        <div class="icon">🎵</div>
+        <div class="illustration">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="26" fill="#1f6feb" fill-opacity="0.15" stroke="#1f6feb" stroke-width="1.5"/>
+            <ellipse cx="28" cy="30" rx="12" ry="13" fill="#f0e6d0"/>
+            <ellipse cx="28" cy="28" rx="14" ry="8" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <circle cx="23" cy="27" r="2" fill="#161b22"/>
+            <circle cx="33" cy="27" r="2" fill="#161b22"/>
+            <path d="M24 33c1.5 1.5 6.5 1.5 8 0" stroke="#161b22" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="13" y="20" width="8" height="12" rx="4" fill="#58a6ff" fill-opacity="0.15" stroke="#58a6ff" stroke-width="1.5"/>
+            <rect x="35" y="20" width="8" height="12" rx="4" fill="#58a6ff" fill-opacity="0.15" stroke="#58a6ff" stroke-width="1.5"/>
+            <path d="M17 18v-2m22 2v-2" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="11" y1="22" x2="13" y2="22" stroke="#58a6ff" stroke-width="1" stroke-linecap="round"/>
+            <line x1="43" y1="22" x2="45" y2="22" stroke="#58a6ff" stroke-width="1" stroke-linecap="round"/>
+            <path d="M14 38c0 2 2 3 4 3s4-1 4-3" stroke="#58a6ff" stroke-width="1" stroke-linecap="round"/>
+            <path d="M34 38c0 2 2 3 4 3s4-1 4-3" stroke="#58a6ff" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3>Your sounds</h3>
-        <p>Default chimes, meme sounds, airhorns, vine booms — or any .mp3 / .wav you own.</p>
+        <p>Default chimes, meme sounds, airhorns, vine booms — or any mp3 or wav file you own.</p>
       </div>
+
       <div class="card">
-        <div class="icon">👀</div>
+        <div class="illustration">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="26" fill="#1f6feb" fill-opacity="0.15" stroke="#1f6feb" stroke-width="1.5"/>
+            <ellipse cx="28" cy="30" rx="12" ry="13" fill="#f0e6d0"/>
+            <ellipse cx="28" cy="28" rx="14" ry="8" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <circle cx="23" cy="27" r="2" fill="#161b22"/>
+            <circle cx="33" cy="27" r="2" fill="#161b22"/>
+            <path d="M24 33c1.5 1.5 6.5 1.5 8 0" stroke="#161b22" stroke-width="1.5" stroke-linecap="round"/>
+            <ellipse cx="6" cy="28" rx="4" ry="7" fill="#58a6ff" fill-opacity="0.15" stroke="#58a6ff" stroke-width="1.5"/>
+            <ellipse cx="50" cy="28" rx="4" ry="7" fill="#58a6ff" fill-opacity="0.15" stroke="#58a6ff" stroke-width="1.5"/>
+            <line x1="6" y1="20" x2="6" y2="14" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="50" y1="20" x2="50" y2="14" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M2 22l4-2m48 2l-4-2" stroke="#58a6ff" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3>Never miss a push</h3>
-        <p>You'll hear when something ships. Audio feedback means you can keep coding.</p>
+        <p>You hear when something ships. Audio feedback means you can keep your eyes on the code.</p>
       </div>
+
       <div class="card">
-        <div class="icon">🤝</div>
+        <div class="illustration">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="26" fill="#1f6feb" fill-opacity="0.15" stroke="#1f6feb" stroke-width="1.5"/>
+            <ellipse cx="18" cy="32" rx="9" ry="10" fill="#f0e6d0"/>
+            <ellipse cx="18" cy="30" rx="10" ry="6" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <circle cx="14" cy="29" r="1.5" fill="#161b22"/>
+            <circle cx="22" cy="29" r="1.5" fill="#161b22"/>
+            <path d="M15 34c1 1 5 1 6 0" stroke="#161b22" stroke-width="1.2" stroke-linecap="round"/>
+            <ellipse cx="38" cy="32" rx="9" ry="10" fill="#f0e6d0"/>
+            <ellipse cx="38" cy="30" rx="10" ry="6" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <circle cx="34" cy="29" r="1.5" fill="#161b22"/>
+            <circle cx="42" cy="29" r="1.5" fill="#161b22"/>
+            <path d="M35 34c1 1 5 1 6 0" stroke="#161b22" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M24 24l6-4m2 4l-6-4" stroke="#f5a623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="28" cy="21" r="4" fill="none" stroke="#f5a623" stroke-width="1.5"/>
+          </svg>
+        </div>
         <h3>Team morale</h3>
-        <p>Coworker pushes and a celebration plays? Instant team bonding. Try it.</p>
+        <p>Coworker pushes and a celebration plays. Instant team bonding. Try it with your crew.</p>
       </div>
+
       <div class="card">
-        <div class="icon">🛡️</div>
+        <div class="illustration">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="26" fill="#1f6feb" fill-opacity="0.15" stroke="#1f6feb" stroke-width="1.5"/>
+            <ellipse cx="28" cy="32" rx="12" ry="10" fill="#f0e6d0"/>
+            <ellipse cx="28" cy="30" rx="14" ry="6" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <circle cx="23" cy="29" r="2" fill="#161b22"/>
+            <circle cx="33" cy="29" r="2" fill="#161b22"/>
+            <path d="M24 34c1.5 1.5 6.5 1.5 8 0" stroke="#161b22" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M18 42l-4 4m24-4l4 4" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="28" cy="44" r="2" fill="#58a6ff" fill-opacity="0.3"/>
+            <path d="M14 24h28" stroke="#8b949e" stroke-width="1" stroke-dasharray="2 2"/>
+            <path d="M42 24l2-2" stroke="#2ea043" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3>Zero guilt</h3>
-        <p>If audio fails, Git works perfectly anyway. No risk, all fun.</p>
+        <p>If audio fails, Git works perfectly anyway. No risk at all. Only fun.</p>
       </div>
+
       <div class="card">
-        <div class="icon">😂</div>
+        <div class="illustration">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="26" fill="#1f6feb" fill-opacity="0.15" stroke="#1f6feb" stroke-width="1.5"/>
+            <ellipse cx="28" cy="32" rx="12" ry="12" fill="#f0e6d0"/>
+            <ellipse cx="28" cy="29" rx="14" ry="7" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <ellipse cx="28" cy="29" rx="14" ry="7" fill="#f0e6d0" stroke="#161b22" stroke-width="1.5"/>
+            <path d="M16 30c2 3 8 5 12 5s10-2 12-5" stroke="#161b22" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="22" cy="27" r="1.5" fill="#161b22"/>
+            <circle cx="34" cy="27" r="1.5" fill="#161b22"/>
+            <path d="M20 23c4-2 12-2 16 0" stroke="#161b22" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M12 20c4-4 16-4 20 0" stroke="#161b22" stroke-width="1" stroke-linecap="round" stroke-dasharray="2 2" opacity="0.4"/>
+            <circle cx="16" cy="36" r="2" fill="#58a6ff" fill-opacity="0.2" stroke="#58a6ff" stroke-width="1"/>
+            <circle cx="40" cy="36" r="2" fill="#58a6ff" fill-opacity="0.2" stroke="#58a6ff" stroke-width="1"/>
+          </svg>
+        </div>
         <h3>Meme-ready</h3>
         <p>Vine boom on push fail. Metal Gear alert on PR pass. Your repo, your comedy.</p>
       </div>
+
     </div>
   </section>
 
   <!-- ─── BUILT-IN SOUNDS ─── -->
   <section class="fade-in">
-    <h2>🔊 Built-in sounds</h2>
+    <h2>Built-in sounds</h2>
     <table class="sound-table">
-      <tr><td>default.wav</td><td>Soft two-tone chime — polite "good job, nerd"</td></tr>
+      <tr><td>default.wav</td><td>Soft two-tone chime — polite good job nerd sound</td></tr>
       <tr><td>success.wav</td><td>Ascending notification — VIP entrance for your commits</td></tr>
-      <tr><td>error.wav</td><td>Descending wah-wah — the auditory "uh oh"</td></tr>
+      <tr><td>error.wav</td><td>Descending wah-wah — the auditory uh oh</td></tr>
     </table>
   </section>
 
   <!-- ─── QUICK START ─── -->
   <section class="fade-in">
-    <h2>⚡ Quick start</h2>
+    <h2>Quick start</h2>
 
     <div class="platform-tabs">
-      <div class="platform-tab active" onclick="switchPlatform('mac', this)">🍏 Mac / Linux</div>
-      <div class="platform-tab" onclick="switchPlatform('win', this)">🪟 Windows</div>
+      <div class="platform-tab active" onclick="switchPlatform('mac', this)">Mac / Linux</div>
+      <div class="platform-tab" onclick="switchPlatform('win', this)">Windows</div>
     </div>
 
     <div id="code-mac" class="code-block active">
@@ -376,7 +479,7 @@ git push</pre>
 
   <!-- ─── CUSTOM SOUNDS ─── -->
   <section class="fade-in">
-    <h2>🎛️ Custom sounds</h2>
+    <h2>Custom sounds</h2>
 
     <ul class="cmd-list">
       <li><span class="prompt">$</span> <span class="arrow">→</span> beep-beep set commit ~/Music/coin.mp3</li>
@@ -390,9 +493,9 @@ git push</pre>
   <footer>
     <p>
       <a href="https://github.com/rachit224agarwal/beep-beep">GitHub</a>
-      &nbsp;&middot;&nbsp;
+      &nbsp;&nbsp;&bull;&nbsp;&nbsp;
       <a href="https://www.npmjs.com/package/git-beep-beep">npm</a>
-      &nbsp;&middot;&nbsp;
+      &nbsp;&nbsp;&bull;&nbsp;&nbsp;
       MIT License
     </p>
   </footer>
@@ -403,10 +506,10 @@ git push</pre>
   function copyInstall(el) {
     navigator.clipboard.writeText('npx git-beep-beep init').then(() => {
       el.classList.add('copied');
-      el.querySelector('.copy-hint').textContent = '✅ copied';
+      el.querySelector('.copy-hint').textContent = 'copied';
       setTimeout(() => {
         el.classList.remove('copied');
-        el.querySelector('.copy-hint').textContent = '📋 copy';
+        el.querySelector('.copy-hint').textContent = 'copy';
       }, 2000);
     });
   }
